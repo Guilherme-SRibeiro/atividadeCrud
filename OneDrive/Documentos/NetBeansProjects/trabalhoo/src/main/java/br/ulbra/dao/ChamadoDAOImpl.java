@@ -42,6 +42,7 @@ public class ChamadoDAOImpl implements ChamadoDAO {
                 c.setSala(rs.getString("sala"));
                 c.setProblemaRelatado(rs.getString("problema_relatado"));
                 c.setPrioridade(rs.getString("prioridade"));
+                c.setDiagnosticoTecnico(rs.getString("diagnostico_tecnico"));
 
                 lista.add(c);
             }
@@ -55,12 +56,14 @@ public class ChamadoDAOImpl implements ChamadoDAO {
 
     @Override
     public void atualizar(Chamado c) {
-        String sql = "UPDATE chamado_tecnico SET diagnostico_tecnico=?, status=? WHERE id=?";
-
+        String sql = "UPDATE chamado_tecnico SET solicitante=?, sala=?, problema_relatado=?, prioridade=?, diagnostico_tecnico=? WHERE id=?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, c.getDiagnosticoTecnico());
-            stmt.setString(2, c.getStatus());
-            stmt.setInt(3, c.getId());
+                stmt.setString(1, c.getSolicitante());
+                stmt.setString(2, c.getSala());
+                stmt.setString(3, c.getProblemaRelatado());
+                stmt.setString(4, c.getPrioridade());
+                stmt.setString(5, c.getDiagnosticoTecnico());
+                stmt.setInt(6, c.getId());
 
             stmt.execute();
         } catch (Exception e) {
